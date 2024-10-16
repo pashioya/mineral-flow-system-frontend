@@ -16,7 +16,6 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Product } from './product';
-import { SelectProduct } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,7 +25,13 @@ export function ProductsTable({
   offset,
   totalProducts
 }: {
-  products: SelectProduct[];
+  products: { id: number,imageUrl: string, 
+    name: string, 
+    status: string, 
+    price: number, 
+    stock: number, 
+    availableAt: { toLocaleDateString: (arg0: string) => string; 
+  } }[];
   offset: number;
   totalProducts: number;
 }) {
