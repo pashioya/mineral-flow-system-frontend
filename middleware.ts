@@ -1,6 +1,12 @@
-export { auth as middleware } from '@/lib/auth';
+// middleware.js or middleware.ts
+import { NextResponse } from 'next/server';
 
-// Don't invoke Middleware on some paths
+export function middleware() {
+  // You can add your logic here, like authentication checks, logging, etc.
+  return NextResponse.next();
+}
+
+// Optional: Export config if you want to exclude specific paths from the middleware
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
