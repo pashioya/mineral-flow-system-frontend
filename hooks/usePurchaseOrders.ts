@@ -7,8 +7,7 @@ const usePurchaseOrders = () => {
   return useQuery({
     queryKey: ['purchaseOrders'],
     queryFn: async () => {
-      const response = await axios.get(url);
-      return response.data;
+      return (await axios.get<PurchaseOrder[]>(url)).data;
     },
   });
 };

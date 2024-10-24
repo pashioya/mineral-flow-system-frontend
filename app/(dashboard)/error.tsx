@@ -18,6 +18,10 @@ export default function Error({
     <main className="p-4 md:p-6">
       <div className="mb-8 space-y-4">
         <h1 className="font-semibold text-lg md:text-2xl">Whoops Error Occured</h1>
+        <h2>
+          {error.message || 'An error occurred'}
+          {error.digest && <span className="text-sm text-muted-foreground"> ({error.digest})</span>}
+        </h2>
       </div>
     </main>
   );

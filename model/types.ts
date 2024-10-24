@@ -23,3 +23,10 @@ export enum OrderStatus {
   COMPLETED,
   CANCELLED,
 }
+
+export type WarehouseCustomer = {
+  customerUUID: UUID;
+  name: string;
+  address: string;
+  email: string;
+};

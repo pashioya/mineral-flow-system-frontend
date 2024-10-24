@@ -41,19 +41,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { PurchaseOrder } from 'model/types';
 import {
   ContextMenu,
-  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { usePurchaseOrders } from 'hooks';
 
 export const columns: ColumnDef<PurchaseOrder>[] = [
   {
@@ -84,7 +76,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
       <ContextMenu>
         <ContextMenuTrigger>{row.getValue('orderNumber')}</ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Order Number</ContextMenuItem>
+          <ContextMenuItem
+            inset
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('orderNumber'));
+            }}
+          >
+            Copy Order Number
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -98,7 +97,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
       <ContextMenu>
         <ContextMenuTrigger>{row.getValue('orderStatus')}</ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Order Status</ContextMenuItem>
+          <ContextMenuItem
+            inset
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('orderStatus'));
+            }}
+          >
+            Copy Order Status
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -114,7 +120,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
           {new Date(row.getValue('dateReceived')).toISOString()}
         </ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Date Received</ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('dateReceived'));
+            }}
+            inset
+          >
+            Copy Date Received
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -130,7 +143,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
           {new Date(row.getValue('deliveryDate')).toISOString()}
         </ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Delivery Date</ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('deliveryDate'));
+            }}
+            inset
+          >
+            Copy Delivery Date
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -144,7 +164,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
       <ContextMenu>
         <ContextMenuTrigger>{row.getValue('warehouseCustomerUUID')}</ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Customer UUID</ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('warehouseCustomerUUID'));
+            }}
+            inset
+          >
+            Copy Customer UUID
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -158,7 +185,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
       <ContextMenu>
         <ContextMenuTrigger>{row.getValue('purchaseOrderUUID')}</ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Purchase Order UUID</ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('purchaseOrderUUID'));
+            }}
+            inset
+          >
+            Copy Purchase Order UUID
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -172,7 +206,14 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
       <ContextMenu>
         <ContextMenuTrigger>{row.getValue('address')}</ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>Copy Address</ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(row.getValue('address'));
+            }}
+            inset
+          >
+            Copy Address
+          </ContextMenuItem>
           <ContextMenuItem inset>Select</ContextMenuItem>
           <ContextMenuItem inset>View Purchase Order</ContextMenuItem>
         </ContextMenuContent>
@@ -210,14 +251,17 @@ export const columns: ColumnDef<PurchaseOrder>[] = [
   },
 ];
 
-export function POTable({ data }: { data: PurchaseOrder[] }) {
+export function POTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  let { data, isLoading, isError } = usePurchaseOrders();
+  console.log(data);
+
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
