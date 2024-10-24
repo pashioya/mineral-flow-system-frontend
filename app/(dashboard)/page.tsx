@@ -13,7 +13,7 @@ import {
 import { usePurchaseOrders } from 'hooks';
 import axios from 'axios';
 import { PurchaseOrder } from 'model/types';
-import { Card } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { POTable } from './po-table';
 
 export default async function PurchaseOrdersPage(props: {
@@ -33,20 +33,11 @@ export default async function PurchaseOrdersPage(props: {
     totalPurchaseOrders: 1,
   };
 
-  // TODO: Implement shadcn DATATABLE.
   // TODO: Implement proper data fetching
 
   return (
     <Tabs defaultValue="all">
       <div className="flex items-center">
-        <TabsList>
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="draft">Draft</TabsTrigger>
-          <TabsTrigger value="archived" className="hidden sm:flex">
-            Archived
-          </TabsTrigger>
-        </TabsList>
         <div className="ml-auto flex items-center gap-2">
           <Button size="sm" variant="outline" className="h-8 gap-1">
             <File className="h-3.5 w-3.5" />
@@ -60,6 +51,9 @@ export default async function PurchaseOrdersPage(props: {
       </div>
       <TabsContent value="all">
         <Card className="p-5">
+          <CardHeader>
+            <CardTitle>Purchase Orders</CardTitle>
+          </CardHeader>
           <POTable data={response.data} />
         </Card>
       </TabsContent>
