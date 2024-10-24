@@ -1,6 +1,5 @@
-'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { File, PlusCircle } from 'lucide-react';
+import { File, PlusCircle, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   TableCaption,
@@ -14,6 +13,8 @@ import {
 import { usePurchaseOrders } from 'hooks';
 import axios from 'axios';
 import { PurchaseOrder } from 'model/types';
+import { Card } from '@/components/ui/card';
+import { POTable } from './po-table';
 
 export default async function PurchaseOrdersPage(props: {
   searchParams: Promise<{ q: string; offset: string }>;
@@ -32,6 +33,9 @@ export default async function PurchaseOrdersPage(props: {
     totalPurchaseOrders: 1,
   };
 
+  // TODO: Implement shadcn DATATABLE.
+  // TODO: Implement proper data fetching
+
   return (
     <Tabs defaultValue="all">
       <div className="flex items-center">
@@ -43,35 +47,21 @@ export default async function PurchaseOrdersPage(props: {
             Archived
           </TabsTrigger>
         </TabsList>
+        <div className="ml-auto flex items-center gap-2">
+          <Button size="sm" variant="outline" className="h-8 gap-1">
+            <File className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
+          </Button>
+          <Button size="sm" className="h-8 gap-1">
+            <RefreshCcw className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Refresh</span>
+          </Button>
+        </div>
       </div>
       <TabsContent value="all">
-        <Table>
-          <TableCaption>A list of recent purchase orders.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Order Number</TableHead>
-              <TableHead>Order Status</TableHead>
-              <TableHead>Date Received</TableHead>
-              <TableHead>Delivery Date</TableHead>
-              <TableHead>Customer UUID</TableHead>
-              <TableHead>Purchase Order UUID</TableHead>
-              <TableHead>Address</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {purchaseOrders.map((order, index) => (
-              <TableRow key={index}>
-                <TableCell>{order.orderNumber}</TableCell>
-                <TableCell>{order.orderStatus}</TableCell>
-                <TableCell>{order.dateReceived.toISOString()}</TableCell>
-                <TableCell>{order.deliveryDate.toISOString()}</TableCell>
-                <TableCell>{order.warehouseCustomerUUID}</TableCell>
-                <TableCell>{order.purchaseOrderUUID}</TableCell>
-                <TableCell>{order.address}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <Card className="p-5">
+          <POTable data={response.data} />
+        </Card>
       </TabsContent>
     </Tabs>
   );
