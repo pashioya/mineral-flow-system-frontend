@@ -8,3 +8,9 @@ export async function fetchPurchaseOrders() {
     .get<PurchaseOrder[]>(process.env.NEXT_PUBLIC_WAREHOUSING_SERVER + '/purchase-orders')
     .then(res => res.data);
 }
+
+export async function fetchWarehouseCustomers() {
+  return axios
+    .get(process.env.NEXT_PUBLIC_WAREHOUSING_SERVER + '/warehouse-customers')
+    .then(res => res.data);
+}

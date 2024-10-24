@@ -258,7 +258,6 @@ export function POTable() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   let { data, isLoading, isError } = usePurchaseOrders();
-  console.log(data);
 
   const table = useReactTable({
     data: data ?? [],
